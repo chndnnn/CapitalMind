@@ -8,7 +8,6 @@ import { useMemo } from "react";
 
 export default function ReturnsTable({ data }) {
   const metrics = useMemo(() => calculateMetrics(data), [data]);
-  console.log("sfmsdf",data)
   const tableData = useMemo(() => {
     if (!metrics) return [];
 

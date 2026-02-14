@@ -7,10 +7,21 @@ export default function Portfolio() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch("/src/data/React Assignment Historical NAV Report.xlsx")
-      .then(res => res.blob())
-      .then(parseExcel)
-      .then(setData);
+    const loadExcel = async () => {
+      try {
+        const res = await fetch("/data/React Assignment Historical NAV Report.xlsx");
+
+        if (!res.ok) throw new Error("File not found");
+
+        const blob = await res.blob();
+        const parsed = await parseExcel(blob);
+        setData(parsed);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    loadExcel();
   }, []);
 
   return (
