@@ -78,59 +78,86 @@ export default function ReturnsTable({ data }) {
 
   if (!metrics) return null;
 
-  return (
-    <div className="p-4 rounded-xl">
-      <h3 className="text-lg font-semibold mb-4">
-        Trailing Returns
-      </h3>
+ return (
+  <div className="p-4 rounded-xl">
+    <h3 className="text-lg font-semibold mb-4">
+      Trailing Returns
+    </h3>
 
-      {/* Horizontal scroll wrapper */}
-      <div className="overflow-x-auto">
-        <table className="min-w-full text-sm border-collapse">
-          <thead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id} className="border-b text-left bg-slate-200 rounded-xl">
-                {headerGroup.headers.map((header) => (
-                  <th
-                    key={header.id}
-                    className={`p-1 px-4 whitespace-nowrap font-medium text-gray-600 ${header.column.columnDef.accessorKey === "sinceInception"
-                        ? "border-r border-gray-300"
-                        : ""
-                      }`}
-                  >
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
+    {/* ================= DESKTOP TABLE ================= */}
+    <div className="hidden md:block overflow-x-auto">
+      <table className="min-w-full text-sm border-collapse">
+        <thead>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr
+              key={headerGroup.id}
+              className="border-b text-left bg-slate-200"
+            >
+              {headerGroup.headers.map((header) => (
+                <th
+                  key={header.id}
+                  className="p-2 px-4 whitespace-nowrap font-medium text-gray-600"
+                >
+                  {flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
 
-          <tbody>
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="text-left">
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className={`py-3 px-4 whitespace-nowrap ${cell.column.columnDef.accessorKey === "sinceInception"
-                        ? "border-r border-gray-300"
-                        : ""
-                      }`}
-                  >
-                    {flexRender(
-                      cell.column.columnDef.cell,
-                      cell.getContext()
-                    )}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="text-sm text-slate-500">Note: Return above 1 years is annualises</p>
+        <tbody>
+          {table.getRowModel().rows.map((row) => (
+            <tr key={row.id} className="border-b">
+              {row.getVisibleCells().map((cell) => (
+                <td
+                  key={cell.id}
+                  className="py-3 px-4 whitespace-nowrap"
+                >
+                  {flexRender(
+                    cell.column.columnDef.cell,
+                    cell.getContext()
+                  )}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
-  );
+
+    {/* ================= MOBILE CARD VIEW ================= */}
+    <div className="md:hidden space-y-4">
+      {table.getRowModel().rows.map((row) => (
+        <div
+          key={row.id}
+          className="bg-white rounded-xl shadow p-4 space-y-2"
+        >
+          {row.getVisibleCells().map((cell) => (
+            <div
+              key={cell.id}
+              className="flex justify-between text-sm"
+            >
+              <span className="text-gray-500">
+                {cell.column.columnDef.header}
+              </span>
+              <span className="font-semibold">
+                {flexRender(
+                  cell.column.columnDef.cell,
+                  cell.getContext()
+                )}
+              </span>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+
+    <p className="text-sm text-slate-500 mt-4">
+      Note: Return above 1 year is annualised
+    </p>
+  </div>
+);
 }

@@ -6,7 +6,7 @@ import Sidebar from "./components/Sidebar";
 function App() {
   return (
     <BrowserRouter>
-      <div className="flex h-screen bg-gray-100">
+      <div className="flex flex flex-col md-flex-row h-screen bg-gray-100">
         {/* Sidebar */}
         <Sidebar />
 
